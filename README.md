@@ -22,8 +22,8 @@ Add following config to serverless.yml file.
 
 ```yml
 plugins:
-  - serverless-plugin-offline-kinesis-stream
   - serverless-plugin-offline-dynamodb-stream
+  - serverless-plugin-offline-kinesis-stream
 custom:
   dynamodbStream:
     host: {LOCAL_DYNAMODB_HOST}
@@ -33,8 +33,8 @@ custom:
         functions:
           - {FUNCTION_NAME}
   kinesisStream:
-    host: kinesis
-    port: 4567
+    host: {LOCAL_KINESIS_HOST}
+    port: {LOCAL_KINESIS_PORT}
     intervalMillis: 5000
     streams:
       - streamName: {STREAM_NAME}

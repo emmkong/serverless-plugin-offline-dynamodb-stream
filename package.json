@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "aws-sdk": "2.238.1",
-    "dynamodb-subscriber": "1.1.1",
+    "dynamodb-subscriber": "git+https://github.com/orchestrated-io/dynamodb-subscriber.git",
     "lodash": "4.17.10",
     "path": "0.12.7"
   },
