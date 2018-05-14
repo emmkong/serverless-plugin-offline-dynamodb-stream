@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "coverage": "jest --colors --coverage ",
-    "jest": "jest --colors --verbose --watch",
+    "jest": "jest --colors --verbose",
     "lint": "eslint src/**/*.js test/**/*.js",
     "test": "npm run lint && npm run jest"
   },

@@ -11,7 +11,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - package-lock-{{ checksum "yarn.lock" }}
+          - package-lock-{{ checksum "package-lock.lock" }}
           - package-lock-
       - run:
           name: install packages
