@@ -1,51 +1,60 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8
+
 jobs:
-  build:
-    docker:
-      - image: circleci/node:8
-    shell: /bin/bash -e
+  test:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
           keys:
-          - package-lock-{{ checksum "package-lock.lock" }}
-          - package-lock-
+          - v1-dependencies-
+	        # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
       - run:
           name: install packages
           command: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: package-lock-{{ checksum "package-lock.json" }}
       - run:
           name: test
           command: npm test
-  publish:
-    docker:
-      - image: circleci/node:8
-    shell: /bin/bash -e
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  deploy:
+    <<: *defaults
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/repo
       - run: 
           name: Set NPM authentication.
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Publish the module to npm.
+          name: Publish package
           command: npm publish
 workflows:
   version: 2
-  unscheduled:
+  test-deploy:
     jobs:
-      - build:
+      - test:
           filters:
             tags:
-              only: /.*/
-      - publish:
+              only: /^v.*/
+      - deploy:
           requires:
-              - build
+            - test
           filters:
             tags:
-              only: '/^v[\d.]+$/'
+              only: /^v.*/
+            branches:
+              ignore: /.*/
     
 
 
