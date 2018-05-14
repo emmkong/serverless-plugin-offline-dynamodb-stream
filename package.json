@@ -1,0 +1,44 @@
+{
+  "name": "serverless-plugin-offline-dynamodb-stream",
+  "version": "1.0.0",
+  "engines": {
+    "node": "8.10"
+  },
+  "description": "Serverless framework offline plugin to support dynamodb stream",
+  "author": "Emmanuel Kong <emmanuel@orchestrated.io>",
+  "homepage": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream#readme",
+  "keywords": [
+    "node"
+  ],
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "coverage": "jest --colors --coverage ",
+    "jest": "jest --colors --verbose --watch",
+    "lint": "eslint src/**/*.js test/**/*.js",
+    "test": "npm run lint && npm run jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream.git"
+  },
+  "bugs": {
+    "url": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream/issues"
+  },
+  "dependencies": {
+    "aws-sdk": "2.238.1",
+    "dynamodb-subscriber": "1.1.1",
+    "lodash": "4.17.10",
+    "path": "0.12.7"
+  },
+  "devDependencies": {
+    "eslint": "4.17.0",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "jest": "22.4.3",
+    "prettier": "1.10.2"
+  },
+  "license": "MIT"
+}
