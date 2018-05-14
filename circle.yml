@@ -7,7 +7,7 @@ jobs:
     docker:
       - image: circleci/node:8
     shell: /bin/bash -e
-     steps:
+    steps:
       - checkout
       - restore_cache:
           keys:
