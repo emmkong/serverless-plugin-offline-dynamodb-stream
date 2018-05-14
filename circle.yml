@@ -1,9 +1,6 @@
 version: 2
 jobs:
-  publish:
-    branches:
-      only:
-        - master
+  build:
     docker:
       - image: circleci/node:8
     shell: /bin/bash -e
@@ -23,15 +20,32 @@ jobs:
       - run:
           name: test
           command: npm test
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-      - run: npm publish
+  publish:
+    docker:
+      - image: circleci/node:8
+    shell: /bin/bash -e
+    steps:
+      - checkout
+      - run: 
+          name: Set NPM authentication.
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Publish the module to npm.
+          command: npm publish
 workflows:
   version: 2
-  tagged-build:
+  unscheduled:
     jobs:
-      - publish:
+      - build:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /.*/
+      - publish:
+          requires:
+              - build
+          filters:
+            tags:
+              only: '/^v[\d.]+$/'
+    
 
 
