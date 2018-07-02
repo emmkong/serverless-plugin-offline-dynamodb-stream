@@ -2930,6 +2930,10 @@ require-uncached@^1.0.3:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
 
+require-without-cache@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/require-without-cache/-/require-without-cache-0.0.6.tgz#b76566d78f8c5efa58b978266b9cfbeb96e037e2"
+
 resolve-cwd@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/resolve-cwd/-/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"

@@ -28,7 +28,8 @@
     "aws-sdk": "2.238.1",
     "dynamodb-subscriber": "git+https://github.com/orchestrated-io/dynamodb-subscriber.git",
     "lodash": "4.17.10",
-    "path": "0.12.7"
+    "path": "0.12.7",
+    "require-without-cache": "^0.0.6"
   },
   "devDependencies": {
     "eslint": "4.17.0",

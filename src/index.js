@@ -1,6 +1,7 @@
 const path = require('path');
 const _ = require('lodash');
 const AWS = require('aws-sdk');
+const requireWithoutCache = require('require-without-cache');
 const DynamoDBSubscriber = require('dynamodb-subscriber');
 
 class ServerlessPluginOfflineDynamodbStream {
@@ -22,10 +23,9 @@ class ServerlessPluginOfflineDynamodbStream {
     const streams = this.config.streams || [];
     this.streams = streams.map(({ table, functions = [] }) => ({
       table,
-      functions: functions.map((functionName) => {
-        const fn = _.get(serverless.service.functions, functionName);
-        return fn && this.createHandler(fn);
-      })
+      functions: functions.map((functionName) =>
+        _.get(serverless.service.functions, functionName)
+      )
     }));
     this.provider = 'aws';
     this.commands = {};
@@ -35,7 +35,10 @@ class ServerlessPluginOfflineDynamodbStream {
   }
 
   createHandler(fn) {
-    const handler = require(this.location + '/' + fn.handler.split('.')[0])[
+    const handler = requireWithoutCache(
+      this.location + '/' + fn.handler.split('.')[0],
+      require
+    )[
       fn.handler
         .split('/')
         .pop()
@@ -57,7 +60,10 @@ class ServerlessPluginOfflineDynamodbStream {
 
       subscriber.on('record', (record, keys) => {
         functions.forEach((fn) => {
-          fn && fn({ Records: [record] });
+          if (fn) {
+            const handler = this.createHandler(fn);
+            handler({ Records: [record] });
+          }
         });
       });
       subscriber.start();
