@@ -12,8 +12,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-.
-          - v1-dependencies-
+          - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          - node-v1-{{ .Branch }}-
+          - node-v1-
       - run:
           name: install packages
           command: npm install
@@ -22,8 +23,8 @@ jobs:
           command: npm test
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-
+            - ~/repo/node_modules
+          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - persist_to_workspace:
           root: ~/repo
           paths: .
