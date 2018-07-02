@@ -1,0 +1,52 @@
+service: demo
+provider:
+  name: aws
+  runtime: nodejs8.10
+  environment:
+    region: localhost
+plugins:
+  - serverless-dynamodb-local
+  - serverless-plugin-offline-dynamodb-stream
+  - serverless-offline
+custom:
+  serverless-offline:
+    host: 0.0.0.0
+    port: 4000
+    dontPrintOutput: true
+  dynamodb:
+    start:
+      host: dynamodb
+      port: 8000
+      migrate: true
+      noStart: true
+  dynamodbStream:
+    host: dynamodb
+    port: 8000
+    streams:
+      - table: items
+        functions:
+          - processItem
+functions:
+  processItem:
+    handler: handler.processItem
+resources:
+  Resources:
+    EventTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+        TableName: items
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE

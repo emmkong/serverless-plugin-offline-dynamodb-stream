@@ -1,0 +1,19 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "serverless offline start",
+    "build": "serverless package",
+    "print": "serverless print",
+    "deploy": "serverless deploy"
+  },
+  "dependencies": {
+    "require-without-cache": "^0.0.6",
+    "serverless": "^1.27.3",
+    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-offline": "^3.25.5",
+    "serverless-plugin-offline-dynamodb-stream": "^1.0.11"
+  }
+}
