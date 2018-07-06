@@ -11,22 +11,6 @@ class ServerlessPluginOfflineDynamodbStream {
       (serverless.service.custom && serverless.service.custom.dynamodbStream) ||
       {};
     this.options = options;
-    const offlineConfig =
-      this.serverless.service.custom['serverless-offline'] || {};
-    this.location = process.cwd();
-    if (offlineConfig.location) {
-      this.location = process.cwd() + '/' + offlineConfig.location;
-    } else if (this.serverless.config.servicePath) {
-      this.location = this.serverless.config.servicePath;
-    }
-    this.createHandler = this.createHandler.bind(this);
-    const streams = this.config.streams || [];
-    this.streams = streams.map(({ table, functions = [] }) => ({
-      table,
-      functions: functions.map((functionName) =>
-        _.get(serverless.service.functions, functionName)
-      )
-    }));
     this.provider = 'aws';
     this.commands = {};
     this.hooks = {
@@ -34,9 +18,9 @@ class ServerlessPluginOfflineDynamodbStream {
     };
   }
 
-  createHandler(fn) {
+  createHandler(location, fn) {
     const handler = requireWithoutCache(
-      this.location + '/' + fn.handler.split('.')[0],
+      location + '/' + fn.handler.split('.')[0],
       require
     )[
       fn.handler
@@ -48,9 +32,26 @@ class ServerlessPluginOfflineDynamodbStream {
   }
 
   startReadableStreams() {
-    const self = this;
-    const { config: { host: hostname, port, region } = {}, streams } = self;
+    const { config: { host: hostname, port, region } = {} } = this;
     const endpoint = new AWS.Endpoint(`http://${hostname}:${port}`);
+    const offlineConfig =
+      this.serverless.service.custom['serverless-offline'] || {};
+    const fns = this.serverless.service.functions;
+
+    let location = process.cwd();
+    if (offlineConfig.location) {
+      location = process.cwd() + '/' + offlineConfig.location;
+    } else if (this.serverless.config.servicePath) {
+      location = this.serverless.config.servicePath;
+    }
+
+    const streams = (this.config.streams || []).map(
+      ({ table, functions = [] }) => ({
+        table,
+        functions: functions.map((functionName) => _.get(fns, functionName))
+      })
+    );
+
     streams.forEach(({ table, functions }) => {
       const subscriber = new DynamoDBSubscriber({
         table,
@@ -61,7 +62,7 @@ class ServerlessPluginOfflineDynamodbStream {
       subscriber.on('record', (record, keys) => {
         functions.forEach((fn) => {
           if (fn) {
-            const handler = this.createHandler(fn);
+            const handler = this.createHandler(location, fn);
             handler({ Records: [record] });
           }
         });

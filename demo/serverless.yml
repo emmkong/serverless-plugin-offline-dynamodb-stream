@@ -5,6 +5,7 @@ provider:
   environment:
     region: localhost
 plugins:
+  - serverless-webpack
   - serverless-dynamodb-local
   - serverless-plugin-offline-dynamodb-stream
   - serverless-offline

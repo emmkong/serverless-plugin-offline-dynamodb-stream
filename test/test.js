@@ -36,7 +36,9 @@ describe('Serverless Plugin Offline Dynamodb Stream', () => {
       serverless,
       options
     );
-    const hanler = plugin.createHandler({ handler: 'handler.funtionA' });
+    const hanler = plugin.createHandler(`${process.cwd()}/test`, {
+      handler: 'handler.funtionA'
+    });
     expect(hanler).toEqual(expect.any(Function));
   });
 

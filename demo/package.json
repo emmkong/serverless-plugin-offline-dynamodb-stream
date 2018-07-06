@@ -10,10 +10,15 @@
     "deploy": "serverless deploy"
   },
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
     "require-without-cache": "^0.0.6",
     "serverless": "^1.27.3",
     "serverless-dynamodb-local": "^0.2.30",
     "serverless-offline": "^3.25.5",
-    "serverless-plugin-offline-dynamodb-stream": "^1.0.11"
+    "serverless-webpack": "^5.1.5",
+    "webpack": "^4.15.1"
   }
 }
