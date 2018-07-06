@@ -376,6 +376,12 @@ async@^2.0.0:
   dependencies:
     lodash "^4.17.10"
 
+async@~2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.0.1.tgz#b709cc0280a9c36f09f4536be823c838a9049e25"
+  dependencies:
+    lodash "^4.8.0"
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -384,9 +390,38 @@ atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
 
+aws-sdk@2.238.1:
+  version "2.238.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.238.1.tgz#a35fdec122ed915da490840e8828336da5be4e7f"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
+    xmlbuilder "4.2.1"
+
 aws-sdk@^2.228.0, aws-sdk@^2.7.0:
   version "2.266.1"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.266.1.tgz#1d0f14cbf82c95cec97752cd5b00df0315a67ff4"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.17"
+
+aws-sdk@^2.45.0:
+  version "2.269.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.269.1.tgz#c1a6d1cc6994db2e72d0e73cec9a27470ba53fe0"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1796,6 +1831,16 @@ dynamodb-localhost@^0.0.5:
     rmdir "^1.2.0"
     tar "^2.0.0"
 
+"dynamodb-subscriber@git+https://github.com/orchestrated-io/dynamodb-subscriber.git":
+  version "1.1.1"
+  resolved "git+https://github.com/orchestrated-io/dynamodb-subscriber.git#e1555033b4d565aaac13a7d2c12c9853dfb45c2f"
+  dependencies:
+    async "~2.0.1"
+    aws-sdk "^2.45.0"
+    debug "^2.6.8"
+    ms "~0.7.1"
+    tempus-fugit "~2.3.1"
+
 ecdsa-sig-formatter@1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.10.tgz#1c595000f04a8897dfb85000892a0f4c33af86c3"
@@ -2955,7 +3000,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@^4.0.0, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.17.0, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.8.0:
+lodash@4.17.10, lodash@^4.0.0, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.17.0, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.8.0:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
@@ -3165,6 +3210,10 @@ ms@2.0.0:
 ms@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
+
+ms@~0.7.1:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
 
 mute-stream@0.0.6:
   version "0.0.6"
@@ -3499,6 +3548,13 @@ path-loader@^1.0.2:
     native-promise-only "^0.8.1"
     superagent "^3.6.3"
 
+path@0.12.7:
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
+  dependencies:
+    process "^0.11.1"
+    util "^0.10.3"
+
 pbkdf2@^3.0.3:
   version "3.0.16"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.16.tgz#7404208ec6b01b62d85bf83853a8064f8d9c2a5c"
@@ -3567,7 +3623,7 @@ process-nextick-args@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
 
-process@^0.11.10:
+process@^0.11.1, process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
@@ -3929,6 +3985,16 @@ serverless-offline@^3.25.5:
     lodash "^4.17.10"
     uuid "^3.2.1"
     velocityjs "^0.9.3"
+
+serverless-plugin-offline-dynamodb-stream@1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-offline-dynamodb-stream/-/serverless-plugin-offline-dynamodb-stream-1.0.13.tgz#5efc0f015f392055a717035768c6655d6e77a88d"
+  dependencies:
+    aws-sdk "2.238.1"
+    dynamodb-subscriber "git+https://github.com/orchestrated-io/dynamodb-subscriber.git"
+    lodash "4.17.10"
+    path "0.12.7"
+    require-without-cache "^0.0.6"
 
 serverless-webpack@^5.1.5:
   version "5.1.5"
@@ -4327,6 +4393,10 @@ tar@^4:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
+
+tempus-fugit@~2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/tempus-fugit/-/tempus-fugit-2.3.1.tgz#a81cb9362c96ae0e0bb7bf0ea6e35d6791f20ab0"
 
 term-size@^1.2.0:
   version "1.2.0"
@@ -4760,7 +4830,7 @@ xml2js@0.4.17:
     sax ">=0.6.0"
     xmlbuilder "^4.1.0"
 
-xmlbuilder@^4.1.0:
+xmlbuilder@4.2.1, xmlbuilder@^4.1.0:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-4.2.1.tgz#aa58a3041a066f90eaa16c2f5389ff19f3f461a5"
   dependencies:
