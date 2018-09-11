@@ -1,42 +1,52 @@
 {
   "name": "serverless-plugin-offline-dynamodb-stream",
   "version": "1.0.13",
-  "description": "Serverless framework offline plugin to support dynamodb stream",
+  "description":
+    "Serverless framework offline plugin to support dynamodb stream",
   "author": "Emmanuel Kong <emmanuel@orchestrated.io>",
-  "homepage": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream#readme",
-  "keywords": [
-    "node"
-  ],
+  "homepage":
+    "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream#readme",
+  "keywords": ["node"],
   "main": "src/index.js",
-  "files": [
-    "src"
-  ],
+  "files": ["src"],
   "scripts": {
-    "coverage": "jest --colors --coverage ",
-    "jest": "jest --colors --verbose",
-    "lint": "eslint src/**/*.js test/**/*.js",
+    "coverage": "jest --coverage ",
+    "jest": "jest",
+    "lint": "eslint src/**/*.js test/**/*.js --fix",
     "test": "npm run lint && npm run jest"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream.git"
+    "url":
+      "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream.git"
   },
   "bugs": {
-    "url": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream/issues"
+    "url":
+      "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream/issues"
   },
   "dependencies": {
     "aws-sdk": "2.238.1",
-    "dynamodb-subscriber": "git+https://github.com/orchestrated-io/dynamodb-subscriber.git",
+    "debug": "^3.1.0",
     "lodash": "4.17.10",
     "path": "0.12.7",
     "require-without-cache": "^0.0.6"
   },
   "devDependencies": {
-    "eslint": "4.17.0",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-plugin-prettier": "2.6.0",
+    "eslint": "^5.0.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "jest": "22.4.3",
     "prettier": "1.10.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "license": "MIT"
 }

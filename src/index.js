@@ -1,8 +1,8 @@
-const path = require('path');
 const _ = require('lodash');
 const AWS = require('aws-sdk');
 const requireWithoutCache = require('require-without-cache');
-const DynamoDBSubscriber = require('dynamodb-subscriber');
+const DynamoDBStreamReadable = require('./DynamoDBStreamReadable');
+const FunctionExecutable = require('./FunctionExecutable');
 
 class ServerlessPluginOfflineDynamodbStream {
   constructor(serverless, options) {
@@ -32,7 +32,7 @@ class ServerlessPluginOfflineDynamodbStream {
   }
 
   startReadableStreams() {
-    const { config: { host: hostname, port, region } = {} } = this;
+    const { config: { host: hostname, port, region, batchSize } = {} } = this;
     const endpoint = new AWS.Endpoint(`http://${hostname}:${port}`);
     const offlineConfig =
       this.serverless.service.custom['serverless-offline'] || {};
@@ -53,21 +53,36 @@ class ServerlessPluginOfflineDynamodbStream {
     );
 
     streams.forEach(({ table, functions }) => {
-      const subscriber = new DynamoDBSubscriber({
-        table,
-        endpoint,
-        interval: '1s'
-      });
+      const dynamo = endpoint
+        ? new AWS.DynamoDB({ region, endpoint })
+        : new AWS.DynamoDB({ region });
+      dynamo.describeTable({ TableName: table }, (err, tableDescription) => {
+        if (err) {
+          throw err;
+        }
+        if (
+          tableDescription &&
+          tableDescription.Table &&
+          tableDescription.Table.LatestStreamArn
+        ) {
+          const streamArn = tableDescription.Table.LatestStreamArn;
 
-      subscriber.on('record', (record, keys) => {
-        functions.forEach((fn) => {
-          if (fn) {
-            const handler = this.createHandler(location, fn);
-            handler({ Records: [record] });
-          }
-        });
+          const ddbStream = endpoint
+            ? new AWS.DynamoDBStreams({
+                region,
+                endpoint
+              })
+            : new AWS.DynamoDBStreams({ region });
+
+          const readable = new DynamoDBStreamReadable(ddbStream, streamArn, {
+            highWaterMark: batchSize
+          });
+          const functionExecutable = FunctionExecutable(location, functions);
+          readable.pipe(functionExecutable).on('end', () => {
+            console.log(`stream for table [${table}] closed!`);
+          });
+        }
       });
-      subscriber.start();
     });
   }
 }

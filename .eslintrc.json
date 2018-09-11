@@ -1,7 +1,12 @@
 {
-  "extends": ["plugin:prettier/recommended"],
+  "extends": [
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:jest/recommended"
+  ],
   "env": {
     "es6": true,
     "jest": true
-  }
+  },
+  "plugins": ["prettier", "json", "jest"]
 }

@@ -1,6 +1,5 @@
-jest.mock('dynamodb-subscriber');
+jest.mock('../src/DynamoDBStreamReadable');
 jest.mock('./handler');
-const Subscriber = require('dynamodb-subscriber');
 const ServerlessPluginOfflineDynamodbStream = require('../src');
 
 const handler = require('./handler');
@@ -42,16 +41,11 @@ describe('Serverless Plugin Offline Dynamodb Stream', () => {
     expect(hanler).toEqual(expect.any(Function));
   });
 
-  test('should init subscriber', () => {
-    const startMockFn = jest.fn();
-    const onMockFn = jest.fn();
-    Subscriber.mockImplementation(() => ({ on: onMockFn, start: startMockFn }));
-
+  test('should has correct hook', () => {
     const plugin = new ServerlessPluginOfflineDynamodbStream(
       serverless,
       options
     );
-    plugin.hooks['before:offline:start:init']();
-    expect(startMockFn).toHaveBeenCalled();
+    expect(plugin.hooks['before:offline:start:init']).toBeTruthy();
   });
 });
