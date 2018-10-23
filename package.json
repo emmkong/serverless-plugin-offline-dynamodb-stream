@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-offline-dynamodb-stream",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Serverless framework offline plugin to support dynamodb stream",
   "author": "Emmanuel Kong <emmanuel@orchestrated.io>",
   "homepage": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream#readme",
