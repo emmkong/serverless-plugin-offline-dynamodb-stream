@@ -11,8 +11,14 @@ function sleep(timeout, shouldWait, ...args) {
   });
 }
 
+function timeout(func, timeout, ...args) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(func(...args)), timeout);
+  });
+}
+
 class DynamoDBStreamReadable extends Readable {
-  constructor(client, streamArn, options = {}) {
+  constructor(client, streamArn, pollForever, options = {}) {
     if (!client) {
       throw new Error('client is required');
     }
@@ -28,6 +34,7 @@ class DynamoDBStreamReadable extends Readable {
       interval: 2000,
       parser: JSON.parse
     };
+    this.pollForever = !!pollForever;
     this._started = 0;
   }
 
@@ -75,6 +82,14 @@ class DynamoDBStreamReadable extends Readable {
     return this.getShard()
       .then((shardId) => this.getShardIterator(shardId, shardIteratorOptions))
       .then((shardIterator) => this.readShard(shardIterator, size))
+      .then((shardIterator) => {
+        if (!shardIterator && this.pollForever) {
+          debug('stream ended -- pollForever enabled -- restarting');
+          return timeout(this._startDynamoDBStream.bind(this), 2000, size);
+        }
+
+        return shardIterator;
+      })
       .catch((err) => {
         if (err.code !== 'TrimmedDataAccessException') {
           this.emit('error', err) || console.log(err, err.stack);
@@ -111,7 +126,6 @@ class DynamoDBStreamReadable extends Readable {
         }
         if (!data.NextShardIterator) {
           debug('readShard.closed %s', shardIterator);
-          return null;
         }
 
         return {
