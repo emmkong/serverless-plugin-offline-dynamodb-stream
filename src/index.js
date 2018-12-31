@@ -32,7 +32,15 @@ class ServerlessPluginOfflineDynamodbStream {
   }
 
   startReadableStreams() {
-    const { config: { host: hostname, port, region, batchSize } = {} } = this;
+    const {
+      config: {
+        host: hostname,
+        port,
+        region,
+        batchSize,
+        pollForever = false
+      } = {}
+    } = this;
     const endpoint = new AWS.Endpoint(`http://${hostname}:${port}`);
     const offlineConfig =
       this.serverless.service.custom['serverless-offline'] || {};
@@ -74,9 +82,14 @@ class ServerlessPluginOfflineDynamodbStream {
               })
             : new AWS.DynamoDBStreams({ region });
 
-          const readable = new DynamoDBStreamReadable(ddbStream, streamArn, {
-            highWaterMark: batchSize
-          });
+          const readable = new DynamoDBStreamReadable(
+            ddbStream,
+            streamArn,
+            pollForever,
+            {
+              highWaterMark: batchSize
+            }
+          );
           const functionExecutable = FunctionExecutable(location, functions);
           readable.pipe(functionExecutable).on('end', () => {
             console.log(`stream for table [${table}] closed!`);

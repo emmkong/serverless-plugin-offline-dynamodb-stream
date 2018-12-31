@@ -28,6 +28,7 @@ custom:
   dynamodbStream:
     host: {LOCAL_DYNAMODB_HOST}
     port: {LOCAL_DYNAMODB_PORT}
+    pollForever: boolean
     streams:
       - table: {TABLE_NAME}
         functions:
@@ -42,7 +43,12 @@ custom:
           - {FUNCTION_NAME}
 ```
 
-Ensure your local dynamodb is up and running, or you coulde also consider using [serverless-dynamodb-local](https://github.com/99xt/serverless-dynamodb-local) plugin before start your serverless offline process.
+#### pollForever
+* can be set to `true` to indicate that this plugin should continue to poll for dynamodbstreams events indefinity. if
+`pollForever` is not set, or is set to false, the plugin will stop polling for events once the end of the
+stream is reached (when dynamodbstreams.getRecords => data.NextShardIterator === null). this can be useful in scenarios where you have a lambda function as part of a larger service struture, and the other services depend on the functinality in the lambda.
+
+Ensure your local dynamodb is up and running, or you could also consider using [serverless-dynamodb-local](https://github.com/99xt/serverless-dynamodb-local) plugin before start your serverless offline process.
 
 ```bash
 $ serverless offline start
