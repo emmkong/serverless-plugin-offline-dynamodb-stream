@@ -44,9 +44,15 @@ custom:
 ```
 
 #### pollForever
-* can be set to `true` to indicate that this plugin should continue to poll for dynamodbstreams events indefinity. if
+* pollForever can be set to `true` to indicate that this plugin should continue to poll for dynamodbstreams events indefinity. If
 `pollForever` is not set, or is set to false, the plugin will stop polling for events once the end of the
-stream is reached (when dynamodbstreams.getRecords => data.NextShardIterator === null). this can be useful in scenarios where you have a lambda function as part of a larger service struture, and the other services depend on the functinality in the lambda.
+stream is reached (when dynamodbstreams.getRecords => data.NextShardIterator === null), or an error occurs.
+
+* With `pollForever` set to `true` the following events will trigger a restart instead of exiting as would happen with `pollForever` set to `false`:
+    * The end of a Dynamodb Stream is reached (when dynamodbstreams.getRecords => data.NextShardIterator === null)
+    *  [ExpiredIteratorException](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html) is thrown from `dynamodbstreams.getRecords`.
+
+* This can be useful in scenarios where you have a lambda function as part of a larger service struture, and the other services depend on the functinality in the lambda.
 
 Ensure your local dynamodb is up and running, or you could also consider using [serverless-dynamodb-local](https://github.com/99xt/serverless-dynamodb-local) plugin before start your serverless offline process.
 
