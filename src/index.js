@@ -104,7 +104,7 @@ class ServerlessPluginOfflineDynamodbStream {
           });
 
           readable.pipe(functionExecutable).on('end', () => {
-            console.log(`stream for table [${table}] ended!`);
+            console.log(`stream for table [${table}] closed!`);
           });
         }
       });
