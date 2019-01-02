@@ -91,16 +91,24 @@ class DynamoDBStreamReadable extends Readable {
         return shardIterator;
       })
       .catch((err) => {
-        if (err.code !== 'TrimmedDataAccessException') {
+        if (err.code === 'ExpiredIteratorException') {
+          if (this.pollForever) {
+            debug(
+              'readShard - ExpiredIteratorException -- pollForever enabled -- restarting'
+            );
+            return this._startDynamoDBStream(size);
+          }
           this.emit('error', err) || console.log(err, err.stack);
-        } else {
+        } else if (err.code === 'TrimmedDataAccessException') {
           debug(
             'readShard - TrimmedDataAccessException -> restart dynamodb stream'
           );
           const refetchShardIteratorOptions = {
             ShardIteratorType: 'TRIM_HORIZON'
           };
-          this._startDynamoDBStream(size, refetchShardIteratorOptions);
+          return this._startDynamoDBStream(size, refetchShardIteratorOptions);
+        } else {
+          this.emit('error', err) || console.log(err, err.stack);
         }
       });
   }
