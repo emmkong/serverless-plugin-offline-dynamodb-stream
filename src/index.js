@@ -39,12 +39,15 @@ class ServerlessPluginOfflineDynamodbStream {
         region,
         batchSize,
         pollForever = false
-      } = {}
+      } = {},
+      serverless: { service: { provider: { environment } = {} } = {} } = {}
     } = this;
     const endpoint = new AWS.Endpoint(`http://${hostname}:${port}`);
     const offlineConfig =
       this.serverless.service.custom['serverless-offline'] || {};
     const fns = this.serverless.service.functions;
+
+    process.env = Object.assign({}, process.env, environment);
 
     let location = process.cwd();
     if (offlineConfig.location) {
@@ -90,7 +93,16 @@ class ServerlessPluginOfflineDynamodbStream {
               highWaterMark: batchSize
             }
           );
+
           const functionExecutable = FunctionExecutable(location, functions);
+
+          readable.on('error', (error) => {
+            console.log(
+              `DynamoDBStreamReadable error... terminating stream... Error => ${error}`
+            );
+            functionExecutable.destroy(error);
+          });
+
           readable.pipe(functionExecutable).on('end', () => {
             console.log(`stream for table [${table}] closed!`);
           });
