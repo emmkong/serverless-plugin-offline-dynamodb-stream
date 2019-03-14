@@ -25,7 +25,8 @@ describe('Serverless Plugin Offline Dynamodb Stream', () => {
       options
     );
     expect(plugin.hooks).toEqual({
-      'before:offline:start:init': expect.any(Function)
+      'before:offline:start:init': expect.any(Function),
+      'streams:start:addStreamHandler': expect.any(Function)
     });
   });
 
@@ -34,10 +35,10 @@ describe('Serverless Plugin Offline Dynamodb Stream', () => {
       serverless,
       options
     );
-    const hanler = plugin.createHandler(`${process.cwd()}/test`, {
+    const handler = plugin.createHandler(`${process.cwd()}/test`, {
       handler: 'handler.funtionA'
     });
-    expect(hanler).toEqual(expect.any(Function));
+    expect(handler).toEqual(expect.any(Function));
   });
 
   test('should has correct hook', () => {
