@@ -2,7 +2,7 @@ function functionA(event) {
   return Promise.resolve(event + 'A');
 }
 function functionB(event) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(event + 'B');
     }, 500);

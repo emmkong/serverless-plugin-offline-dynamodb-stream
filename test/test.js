@@ -2,7 +2,6 @@ jest.mock('../src/DynamoDBStreamReadable');
 jest.mock('./handler');
 const ServerlessPluginOfflineDynamodbStream = require('../src');
 
-const handler = require('./handler');
 const serverless = {
   config: {
     servicePath: '../test'

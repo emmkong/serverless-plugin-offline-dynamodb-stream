@@ -41,7 +41,7 @@ test('should able to handle multiple functions', () => {
     {
       handler: 'handler.functionC'
     }
-  ]).then(([result1, result2, result3, result4]) => {
+  ]).then(([result1, result2, result3]) => {
     expect(result1).toBe('resultA');
     expect(result2).toBe('resultB');
     expect(result3).toBe('resultC');
