@@ -18,7 +18,7 @@
     "serverless": "^1.27.3",
     "serverless-dynamodb-local": "^0.2.30",
     "serverless-offline": "^3.25.5",
-    "serverless-plugin-offline-dynamodb-stream": "1.0.13",
+    "serverless-plugin-offline-dynamodb-stream": "1.0.18",
     "serverless-webpack": "^5.1.5",
     "webpack": "^4.15.1"
   }
