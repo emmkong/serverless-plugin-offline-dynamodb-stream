@@ -29,12 +29,6 @@ class ServerlessPluginOfflineDynamodbStream {
                 usage: 'Specify the name of the function you want to invoke',
                 required: true,
                 shortcut: 'f'
-              },
-              build: {
-                usage:
-                  'Specify whether you want webpack build to happen before adding the listener',
-                required: false,
-                shortcut: 'b'
               }
             }
           }
@@ -62,49 +56,33 @@ class ServerlessPluginOfflineDynamodbStream {
 
   startStreamHandler() {
     const {
-      options: { table, funct, build },
-      config: { host: hostname, port, region, webpack = false } = {}
+      options: { table, funct },
+      config: { host: hostname, port, region } = {}
     } = this;
     const endpoint = new AWS.Endpoint(`http://${hostname}:${port}`);
 
     const lambda = _.get(this.serverless.service.functions, funct);
 
     let location = this.getLocation();
-    if (webpack) {
-      location = location + '/.webpack/service';
-    }
 
-    this.runWebpack(webpack && build).then(() => {
-      const dynamo = endpoint
-        ? new AWS.DynamoDB({ region, endpoint })
-        : new AWS.DynamoDB({ region });
-      dynamo.describeTable({ TableName: table }, (err, tableDescription) => {
-        if (err) {
-          throw err;
-        }
-        if (
-          tableDescription &&
-          tableDescription.Table &&
-          tableDescription.Table.LatestStreamArn
-        ) {
-          const streamArn = tableDescription.Table.LatestStreamArn;
+    const dynamo = endpoint
+      ? new AWS.DynamoDB({ region, endpoint })
+      : new AWS.DynamoDB({ region });
+    dynamo.describeTable({ TableName: table }, (err, tableDescription) => {
+      if (err) {
+        throw err;
+      }
+      if (
+        tableDescription &&
+        tableDescription.Table &&
+        tableDescription.Table.LatestStreamArn
+      ) {
+        const streamArn = tableDescription.Table.LatestStreamArn;
 
-          const functionExecutable = FunctionExecutable(location, [lambda]);
-          this.startOneReadableStream(endpoint, streamArn, functionExecutable);
-        }
-      });
+        const functionExecutable = FunctionExecutable(location, [lambda]);
+        this.startOneReadableStream(endpoint, streamArn, functionExecutable);
+      }
     });
-  }
-
-  runWebpack(webpack) {
-    if (webpack) {
-      return this.serverless.pluginManager
-        .spawn('webpack:validate')
-        .then(() => this.serverless.pluginManager.spawn('webpack:compile'))
-        .then(() => this.serverless.pluginManager.spawn('webpack:package'));
-    } else {
-      return Promise.resolve();
-    }
   }
 
   startOneReadableStream(endpoint, streamArn, functionExecutable) {
