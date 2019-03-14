@@ -1,14 +1,14 @@
-version: '2.3'
+version: "2.3"
 
 services:
   dynamodb:
-     image: cnadiminti/dynamodb-local:latest
+    image: cnadiminti/dynamodb-local:latest
   admin:
-      image: boogak/dynamodb-admin
-      ports:
-       - 8001:8001
-      environment: 
-        - DYNAMO_ENDPOINT=http://dynamodb:8000
+    image: boogak/dynamodb-admin
+    ports:
+      - 8001:8001
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb:8000
   serverless:
     build: .
     volumes:

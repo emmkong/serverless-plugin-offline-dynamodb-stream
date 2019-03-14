@@ -1,5 +1,6 @@
 const { isNil, isFunction, map } = require('lodash');
 const requireWithoutCache = require('require-without-cache');
+require('@babel/register');
 
 const promisify = (foo) =>
   new Promise((resolve, reject) => {

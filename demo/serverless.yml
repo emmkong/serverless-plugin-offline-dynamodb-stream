@@ -5,7 +5,6 @@ provider:
   environment:
     region: localhost
 plugins:
-  - serverless-webpack
   - serverless-dynamodb-local
   - serverless-plugin-offline-dynamodb-stream
   - serverless-offline
@@ -29,11 +28,11 @@ custom:
           - processItem
 functions:
   processItem:
-    handler: handler.processItem
+    handler: handler.handler
 resources:
   Resources:
     EventTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           - AttributeName: id
