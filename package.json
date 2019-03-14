@@ -1,16 +1,14 @@
 {
-  "name": "serverless-plugin-offline-dynamodb-stream",
+  "name": "@dathuis/serverless-plugin-offline-dynamodb-stream",
   "version": "1.0.18",
-  "description": "Serverless framework offline plugin to support dynamodb stream",
+  "description":
+    "Serverless framework offline plugin to support dynamodb stream",
   "author": "Emmanuel Kong <emmanuel@orchestrated.io>",
-  "homepage": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream#readme",
-  "keywords": [
-    "node"
-  ],
+  "homepage":
+    "https://github.com/DatHuis/serverless-plugin-offline-dynamodb-stream#readme",
+  "keywords": ["node"],
   "main": "src/index.js",
-  "files": [
-    "src"
-  ],
+  "files": ["src"],
   "scripts": {
     "coverage": "jest --coverage ",
     "jest": "jest",
@@ -19,10 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream.git"
+    "url":
+      "git+https://github.com/DatHuis/serverless-plugin-offline-dynamodb-stream.git"
   },
   "bugs": {
-    "url": "https://github.com/orchestrated-io/serverless-plugin-offline-dynamodb-stream/issues"
+    "url":
+      "https://github.com/DatHuis/serverless-plugin-offline-dynamodb-stream/issues"
   },
   "dependencies": {
     "aws-sdk": "2.238.1",
