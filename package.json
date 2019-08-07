@@ -27,7 +27,7 @@
   "dependencies": {
     "aws-sdk": "2.238.1",
     "debug": "^3.1.0",
-    "lodash": "~>4.17.11",
+    "lodash": "^4.17.15",
     "path": "0.12.7",
     "require-without-cache": "^0.0.6"
   },
