@@ -16,9 +16,9 @@
     "babel-preset-stage-0": "^6.24.1",
     "require-without-cache": "^0.0.6",
     "serverless": "^1.27.3",
-    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-dynamodb-local": "^0.2.38",
     "serverless-offline": "^3.25.5",
-    "serverless-plugin-offline-dynamodb-stream": "1.0.13",
+    "serverless-plugin-offline-dynamodb-stream": "^1.0.19",
     "serverless-webpack": "^5.1.5",
     "webpack": "^4.15.1"
   }
