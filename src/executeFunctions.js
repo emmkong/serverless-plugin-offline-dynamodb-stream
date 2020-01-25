@@ -17,7 +17,7 @@ const createHandler = (location, fn) => {
   process.env = Object.assign({}, originalEnv, fn.environment);
 
   const handler = requireWithoutCache(
-    location + '/' + fn.handler.split('.')[0],
+    location + '/' + fn.handler.substring(0, fn.handler.lastIndexOf('.')),
     require
   )[
     fn.handler
