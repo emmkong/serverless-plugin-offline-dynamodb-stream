@@ -32,7 +32,7 @@ class DynamoDBStreamReadable extends Readable {
     this.streamArn = streamArn;
     this.options = {
       interval: 2000,
-      parser: JSON.parse
+      parser: JSON.parse,
     };
     this.pollForever = !!pollForever;
     this._started = 0;
@@ -40,7 +40,7 @@ class DynamoDBStreamReadable extends Readable {
 
   getShard() {
     const params = {
-      StreamArn: this.streamArn
+      StreamArn: this.streamArn,
     };
     return this.client
       .describeStream(params)
@@ -65,7 +65,7 @@ class DynamoDBStreamReadable extends Readable {
       {
         ShardId: shardId,
         ShardIteratorType: 'LATEST',
-        StreamArn: this.streamArn
+        StreamArn: this.streamArn,
       },
       options || {}
     );
@@ -104,7 +104,7 @@ class DynamoDBStreamReadable extends Readable {
             'readShard - TrimmedDataAccessException -> restart dynamodb stream'
           );
           const refetchShardIteratorOptions = {
-            ShardIteratorType: 'TRIM_HORIZON'
+            ShardIteratorType: 'TRIM_HORIZON',
           };
           return this._startDynamoDBStream(size, refetchShardIteratorOptions);
         } else {
@@ -116,7 +116,7 @@ class DynamoDBStreamReadable extends Readable {
   readShard(shardIterator, size) {
     const params = {
       ShardIterator: shardIterator,
-      Limit: size
+      Limit: size,
     };
     return this.client
       .getRecords(params)
@@ -138,7 +138,7 @@ class DynamoDBStreamReadable extends Readable {
 
         return {
           nextShardIterator: data.NextShardIterator,
-          hasData: data.Records.length > 0
+          hasData: data.Records.length > 0,
         };
       })
       .then(({ nextShardIterator, hasData }) => {

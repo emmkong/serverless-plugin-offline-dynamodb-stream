@@ -17,5 +17,5 @@ function functionC(event, context, callback) {
 module.exports = {
   functionA,
   functionB,
-  functionC
+  functionC,
 };

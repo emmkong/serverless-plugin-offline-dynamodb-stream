@@ -5,17 +5,17 @@ const ServerlessPluginOfflineDynamodbStream = require('../src');
 const handler = require('./handler');
 const serverless = {
   config: {
-    servicePath: '../test'
+    servicePath: '../test',
   },
   service: {
     custom: {
       'serverless-offline': {},
       dynamodbStream: {
-        streams: [{ table: 'table-name', functions: ['funtionA'] }]
+        streams: [{ table: 'table-name', functions: ['funtionA'] }],
       },
-      functions: { funtionA: { handler: 'handler.funtionA' } }
-    }
-  }
+      functions: { funtionA: { handler: 'handler.funtionA' } },
+    },
+  },
 };
 const options = {};
 
@@ -26,7 +26,7 @@ describe('Serverless Plugin Offline Dynamodb Stream', () => {
       options
     );
     expect(plugin.hooks).toEqual({
-      'before:offline:start:init': expect.any(Function)
+      'before:offline:start:init': expect.any(Function),
     });
   });
 
@@ -36,7 +36,7 @@ describe('Serverless Plugin Offline Dynamodb Stream', () => {
       options
     );
     const hanler = plugin.createHandler(`${process.cwd()}/test`, {
-      handler: 'handler.funtionA'
+      handler: 'handler.funtionA',
     });
     expect(hanler).toEqual(expect.any(Function));
   });

@@ -8,7 +8,7 @@ const FunctionExecutable = (location, functions) =>
         callback();
       });
     },
-    objectMode: true
+    objectMode: true,
   });
 
 module.exports = FunctionExecutable;

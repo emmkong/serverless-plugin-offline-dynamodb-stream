@@ -19,12 +19,7 @@ const createHandler = (location, fn) => {
   const handler = requireWithoutCache(
     location + '/' + fn.handler.split('.')[0],
     require
-  )[
-    fn.handler
-      .split('/')
-      .pop()
-      .split('.')[1]
-  ];
+  )[fn.handler.split('/').pop().split('.')[1]];
   return (event, context = {}) =>
     promisify((cb) => {
       const maybeThennable = handler(event, context, cb);

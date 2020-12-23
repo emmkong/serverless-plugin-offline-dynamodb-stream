@@ -14,7 +14,7 @@ class ServerlessPluginOfflineDynamodbStream {
     this.provider = 'aws';
     this.commands = {};
     this.hooks = {
-      'before:offline:start:init': this.startReadableStreams.bind(this)
+      'before:offline:start:init': this.startReadableStreams.bind(this),
     };
   }
 
@@ -22,12 +22,7 @@ class ServerlessPluginOfflineDynamodbStream {
     const handler = requireWithoutCache(
       location + '/' + fn.handler.split('.')[0],
       require
-    )[
-      fn.handler
-        .split('/')
-        .pop()
-        .split('.')[1]
-    ];
+    )[fn.handler.split('/').pop().split('.')[1]];
     return (event, context = {}) => handler(event, context);
   }
 
@@ -38,9 +33,9 @@ class ServerlessPluginOfflineDynamodbStream {
         port,
         region,
         batchSize,
-        pollForever = false
+        pollForever = false,
       } = {},
-      serverless: { service: { provider: { environment } = {} } = {} } = {}
+      serverless: { service: { provider: { environment } = {} } = {} } = {},
     } = this;
     const endpoint = new AWS.Endpoint(`http://${hostname}:${port}`);
     const offlineConfig =
@@ -59,7 +54,7 @@ class ServerlessPluginOfflineDynamodbStream {
     const streams = (this.config.streams || []).map(
       ({ table, functions = [] }) => ({
         table,
-        functions: functions.map((functionName) => _.get(fns, functionName))
+        functions: functions.map((functionName) => _.get(fns, functionName)),
       })
     );
 
@@ -81,7 +76,7 @@ class ServerlessPluginOfflineDynamodbStream {
           const ddbStream = endpoint
             ? new AWS.DynamoDBStreams({
                 region,
-                endpoint
+                endpoint,
               })
             : new AWS.DynamoDBStreams({ region });
 
@@ -90,7 +85,7 @@ class ServerlessPluginOfflineDynamodbStream {
             streamArn,
             pollForever,
             {
-              highWaterMark: batchSize
+              highWaterMark: batchSize,
             }
           );
 
