@@ -126,6 +126,9 @@ class DynamoDBStreamReadable extends Readable {
           debug('behind by %d milliseconds', data.MillisBehindLatest);
         }
         if (data.Records.length) {
+          for (const record in data.Records) {
+            data.Records[record].eventSourceARN = this.streamArn;
+          }
           this.push(data);
           this.emit(
             'checkpoint',
