@@ -47,3 +47,21 @@ test('should able to handle multiple functions', () => {
     expect(result3).toBe('resultC');
   });
 });
+
+test('should able to handle any functions with a dot in path', () => {
+  return executeFunctions('result', `${process.cwd()}/test`, [
+    {
+      handler: './handler.functionA'
+    },
+    {
+      handler: './handler.functionB'
+    },
+    {
+      handler: './handler.functionC'
+    }
+  ]).then(([result1, result2, result3, result4]) => {
+    expect(result1).toBe('resultA');
+    expect(result2).toBe('resultB');
+    expect(result3).toBe('resultC');
+  });
+});
